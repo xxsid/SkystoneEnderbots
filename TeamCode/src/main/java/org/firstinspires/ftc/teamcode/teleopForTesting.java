@@ -20,9 +20,8 @@ public class teleopForTesting extends LinearOpMode {
     static final double COUNTS_PER_MM = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_MM * 3.1415);
     static final double LIFT_SPEED = 0.6;
-    //math for slow
+    //math for speedchanger
 
-    double slow = 1;
     double armDown = 0.7;
     //arm math
 
@@ -75,7 +74,7 @@ public class teleopForTesting extends LinearOpMode {
     double FLdown = 1;
     double FLup = 0.8;
     double FRdown = 0.3;
-    double FRup = 0.6;
+    double FRup = 0.5;
 
     //motors
     double liftReversal = 0.05;
@@ -157,8 +156,7 @@ public class teleopForTesting extends LinearOpMode {
         runtime.reset();
 
         while (opModeIsActive()) {
-            slow = gamepad1.right_trigger * 8;
-
+            
 
 //Driving - left stick y is forward and backwards and left stick x is turning.
 //right stick x strafes.
@@ -169,10 +167,10 @@ public class teleopForTesting extends LinearOpMode {
             //DRIVING
             //Driving: left stick y is forward and backwards and left stick x is turning.
             //right stick x strafes.
-            leftBack.setPower((gamepad1.left_stick_y - gamepad1.left_stick_x - gamepad1.right_stick_x) / slow);
-            rightBack.setPower((gamepad1.left_stick_y + gamepad1.left_stick_x - gamepad1.right_stick_x) / slow);
-            leftFront.setPower((gamepad1.left_stick_y - gamepad1.left_stick_x + gamepad1.right_stick_x) / slow);
-            rightFront.setPower((gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x) / slow);
+            leftBack.setPower((gamepad1.left_stick_y - gamepad1.left_stick_x - gamepad1.right_stick_x) * (1-(gamepad1.right_trigger*0.75)));
+            rightBack.setPower((gamepad1.left_stick_y + gamepad1.left_stick_x - gamepad1.right_stick_x) * (1-(gamepad1.right_trigger*0.75)));
+            leftFront.setPower((gamepad1.left_stick_y - gamepad1.left_stick_x + gamepad1.right_stick_x) * (1-(gamepad1.right_trigger*0.75)));
+            rightFront.setPower((gamepad1.left_stick_y + gamepad1.left_stick_x + gamepad1.right_stick_x) * (1-(gamepad1.right_trigger*0.75)));
 
 
             //GRABBING
@@ -184,7 +182,6 @@ public class teleopForTesting extends LinearOpMode {
             if (gamepad1.left_bumper) {
                 grab.setPosition(releaseGrab);
             }
-
 
             //FOUNDATION MOVEMENT
             //claws both go down
